@@ -1,4 +1,4 @@
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import App from './App';
 import React from 'react';
 import CourseList from '../CourseList/CourseList';
@@ -35,7 +35,7 @@ describe('Basic React Tests - <App />', function() {
 	});
 });
 
-describe('Basic React Tests - When isLoggedIn is true,', function() {
+describe('Basic React Tests - When isLoggedIn is true', function() {
 	it('Should verify that the Login component is not included', () => {
 		const wrapper = shallow(<App isLoggedIn={true} />);
 		expect(wrapper.find('Login')).toHaveLength(0);

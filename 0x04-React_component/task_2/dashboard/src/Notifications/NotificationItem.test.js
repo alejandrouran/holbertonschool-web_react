@@ -18,4 +18,15 @@ describe('Basic React Tests - <NotificationItem />', function() {
 		const wrapper = shallow(<NotificationItem html={{ __html: '<u>test</u>' }} />);
 		expect(wrapper.html()).toEqual('<li data-notification-type="default"><u>test</u></li>');
 	});
+
+	it('When simulating a click on the component - Should check that the spy is called with the right ID argument', () => {
+    const id = 2;
+    const wrapper = shallow(<NotificationItem type="default" value="test" id={id} />);
+    const newNote = wrapper;
+    newNote.markAsRead = jest.fn();
+    wrapper.find("li").first().simulate("click");
+    newNote.markAsRead(id);
+    expect(newNote.markAsRead).toHaveBeenCalledWith(2);
+    jest.restoreAllMocks();
+  });
 });
