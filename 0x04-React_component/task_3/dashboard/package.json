@@ -27,7 +27,7 @@
   "dependencies": {
     "inline-source-map": "^0.6.2",
     "jest": "^27.3.1",
-    "prop-types": "^15.8.1",
+    "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "web-vitals": "^2.1.2"
@@ -39,7 +39,8 @@
     "moduleNameMapper": {
       "\\.(css)$": "<rootDir>/__mocks__/styleMock.js",
       "\\.(png|svg|jpg|jpeg|gif)$": "<rootDir>/__mocks__/fileMock.js"
-    }
+    },
+    "testEnvironment": "jsdom"
   },
   "description": ""
 }
