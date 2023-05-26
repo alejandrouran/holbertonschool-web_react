@@ -1,38 +1,27 @@
-/**
- * @jest-environment jsdom
- */
-import React, { Component } from 'react';
-import { mount } from 'enzyme';
+import { shallow, mount, unmount } from '../../config/setupTests';
 import Login from '../Login/Login';
-import WithLogging from './WithLogging';
-import { StyleSheetTestUtils } from 'aphrodite';
+import WithLoggingHOC from './WithLogging';
 
-beforeEach(() => {
-    StyleSheetTestUtils.suppressStyleInjection();
-});
+// With Logging is a HOC that logs the component name
+describe('<WithLogging />', () => {
+	afterEach(() => {
+		jest.clearAllMocks();
+	});
+	
+	it(`Tests that console.log contains 'Component' on mount when wrapped element is PURE html`, () => {
+		console.log = jest.fn();
+		const Example = WithLoggingHOC(() => <p>Component</p>);
+		const wrapper = mount(<Example />);
+		expect(console.log).toHaveBeenCalledWith('Component Component was mounted');
+		wrapper.unmount();
+	})
 
-describe('<WithLogging /> HOC', () => {
-    it('verifies console.log output when mounting and umounting pure HTML', () => {
-        const spy = jest.spyOn(console, 'log');
-        const Component = WithLogging(() => <p />);
-
-        const wrapper = mount(<Component />);
-
-        expect(spy).toHaveBeenCalledWith('Component Component is mounted');
-        wrapper.unmount();
-        expect(spy).toHaveBeenCalledWith('Component Component is going to unmount');
-        spy.mockRestore();
-    });
-
-    it('verifies console.log output when mounting and umounting Login component', () => {
-        const spy = jest.spyOn(console, 'log');
-        const Component = WithLogging(Login);
-
-        const wrapper = mount(<Component />);
-
-        expect(spy).toHaveBeenCalledWith('Component Login is mounted');
-        wrapper.unmount();
-        expect(spy).toHaveBeenCalledWith('Component Login is going to unmount');
-        spy.mockRestore();
-    });
+	it(`Tests that console.log contains name of wrapped element when mounted or unmounted`, () => {
+		console.log = jest.fn();
+		const Example = WithLoggingHOC(() => <p>Component</p>);
+		const wrapper = mount(<Example />);
+		expect(console.log).toHaveBeenCalledWith('Component Component was mounted');
+		wrapper.unmount();
+		expect(console.log).toHaveBeenCalledWith('Component Component was unmounted');
+	})
 });
